@@ -2,10 +2,9 @@ import todoArray from "./../api/todos.js";
 import * as lib from "./helpers/lib.js";
 
 let storage = window.localStorage;
-let data =
-  JSON.parse(storage.getItem("todos")).length > 0
-    ? JSON.parse(storage.getItem("todos"))
-    : todoArray;
+let storageTodos = storage.getItem("todos");
+
+let data = storageTodos ? JSON.parse(storageTodos) : todoArray;
 
 let makerTodo = document.querySelector(".maker-todo");
 let addTodo = document.querySelector(".add-todo");
@@ -21,15 +20,23 @@ listGroup.addEventListener("click", (event) => {
   switch (pressedNode.dataset.type) {
     case "delete":
       let deleteParentNode = pressedNode.parentNode.parentNode;
-      lib.delete(deleteParentNode.dataset.id);
+      // data arraydan tanlangan todoni o'chirish
+      data = data.filter((todo) => {
+        return todo.id != deleteParentNode.dataset.id;
+      });
+
+      // storagega qayta ishlangan massivni saqlash
+      storage.setItem("todos", JSON.stringify(data));
+      // ekrandan LIni o'chirish
+      deleteParentNode.remove();
       break;
     case "edit":
       let editParentNode = pressedNode.parentNode.parentNode;
-      lib.edit(editParentNode.dataset.id);
+      // lib.edit(editParentNode.dataset.id);
       break;
     case "check":
       let checkParentNode = pressedNode.parentNode;
-      lib.check(checkParentNode.dataset.id);
+      // lib.check(checkParentNode.dataset.id);
       break;
   }
 });
