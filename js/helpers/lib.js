@@ -1,15 +1,26 @@
-export function render(data) {
-  // data.map;
+export function render(data, list) {
+  let fragment = document.createDocumentFragment();
+
+  data.forEach(({ id, isDone, text }) => {
+    fragment.prepend(createElement(id, isDone, text));
+  });
+
+  list.innerHTML = "";
+
+  list.append(fragment);
 }
 
 export function createElement(id, isDone, text) {
   let LI = document.createElement("li");
   LI.dataset.id = id;
   LI.dataset.isDone = isDone;
-  LI.className = "list-group-item d-flex align-items-center";
+  LI.className = `list-group-item d-flex align-items-center ${
+    isDone ? "task-done" : ""
+  }`;
 
   let INPUT = document.createElement("input");
   INPUT.dataset.type = "check";
+  INPUT.checked = isDone;
   INPUT.className = "form-check-input me-3";
   INPUT.setAttribute("type", "checkbox");
   LI.append(INPUT);
@@ -23,6 +34,8 @@ export function createElement(id, isDone, text) {
   BTN_WRAPPER.className = "d-flex gap-1";
 
   let EDIT_BTN = document.createElement("button");
+  EDIT_BTN.setAttribute("data-bs-toggle", "modal");
+  EDIT_BTN.setAttribute("data-bs-target", "#exampleModal");
   EDIT_BTN.dataset.type = "edit";
   EDIT_BTN.className = "btn btn-warning";
   EDIT_BTN.textContent = "edit";
@@ -46,5 +59,3 @@ export function todoObjectCreator(text) {
     isDone: false,
   };
 }
-
-export function deleter(id) {}

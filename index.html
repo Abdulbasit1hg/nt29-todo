@@ -13,20 +13,22 @@
       crossorigin="anonymous"
     />
 
+    <link rel="stylesheet" href="./css/main.css" />
+
     <title>Todo App</title>
   </head>
   <body>
     <div class="container">
       <h1 class="text-center mt-2">What needs to be done?</h1>
 
-      <div class="flex-row d-flex">
+      <form id="formik" class="flex-row d-flex">
         <input
           type="text"
           class="maker-todo form-control me-3"
           placeholder="Type here..."
         />
         <button class="add-todo btn btn-success text-nowrap">ADD TODO</button>
-      </div>
+      </form>
 
       <ul class="list-group mt-5">
         <!-- <li class="list-group-item d-flex align-items-center">
@@ -38,6 +40,48 @@
           </div>
         </li> -->
       </ul>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <form id="saveTodoForm" class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit todo</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input class="form-control" type="text" id="editTodo" />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Save changes
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <script
