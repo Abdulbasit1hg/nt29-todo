@@ -31,10 +31,8 @@ listGroup.addEventListener("click", (event) => {
         return todo.id != deleteParentNode.dataset.id;
       });
 
-      // storagega qayta ishlangan massivni saqlash
-      storage.setItem("todos", JSON.stringify(data));
-      // ekrandan LIni o'chirish
-      deleteParentNode.remove();
+      lib.render(data, listGroup);
+
       break;
     case "edit":
       let editParentNode = pressedNode.parentNode.parentNode;
@@ -58,8 +56,7 @@ listGroup.addEventListener("click", (event) => {
         return todo;
       });
 
-      // storagega qayta ishlangan massivni saqlash
-      storage.setItem("todos", JSON.stringify(data));
+      lib.render(data, listGroup);
 
       break;
   }
@@ -99,8 +96,13 @@ data.forEach((todo) => {
 saveTodoForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  let newTodo = editTodo.value;
+  let newTodo = editTodo.value.trim();
   let todoId = editTodo.dataset.id;
+
+  if (newTodo.length < 3) {
+    alert("Ko'proq matn kiriting");
+    return;
+  }
 
   data = data.map((todo) => {
     if (todo.id == todoId) {
@@ -109,9 +111,6 @@ saveTodoForm.addEventListener("submit", (event) => {
 
     return todo;
   });
-
-  // storagega qayta ishlangan massivni saqlash
-  storage.setItem("todos", JSON.stringify(data));
 
   lib.render(data, listGroup);
 });

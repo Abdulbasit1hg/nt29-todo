@@ -1,4 +1,9 @@
+let storage = window.localStorage;
+
 export function render(data, list) {
+  // storagega qayta ishlangan massivni saqlash
+  storage.setItem("todos", JSON.stringify(data));
+
   let fragment = document.createDocumentFragment();
 
   data.forEach(({ id, isDone, text }) => {
@@ -33,13 +38,15 @@ export function createElement(id, isDone, text) {
   let BTN_WRAPPER = document.createElement("div");
   BTN_WRAPPER.className = "d-flex gap-1";
 
-  let EDIT_BTN = document.createElement("button");
-  EDIT_BTN.setAttribute("data-bs-toggle", "modal");
-  EDIT_BTN.setAttribute("data-bs-target", "#exampleModal");
-  EDIT_BTN.dataset.type = "edit";
-  EDIT_BTN.className = "btn btn-warning";
-  EDIT_BTN.textContent = "edit";
-  BTN_WRAPPER.append(EDIT_BTN);
+  if (!isDone) {
+    let EDIT_BTN = document.createElement("button");
+    EDIT_BTN.setAttribute("data-bs-toggle", "modal");
+    EDIT_BTN.setAttribute("data-bs-target", "#exampleModal");
+    EDIT_BTN.dataset.type = "edit";
+    EDIT_BTN.className = "btn btn-warning";
+    EDIT_BTN.textContent = "edit";
+    BTN_WRAPPER.append(EDIT_BTN);
+  }
 
   let DELETE_BTN = document.createElement("button");
   DELETE_BTN.dataset.type = "delete";
